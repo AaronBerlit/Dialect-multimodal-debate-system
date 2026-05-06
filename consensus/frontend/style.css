@@ -1,0 +1,184 @@
+/* ═══ Dialectic — High Fidelity UI ═══ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --primary: #FF7F6A; /* Caution / Ethicist */
+    --secondary: #00D4AA; /* Acceleration / Catalyst */
+    --accent: #A0B2A6; /* Synthesis / Neutral */
+    --gold: #D4AF37;
+    
+    --bg: #FDFCFB;
+    --card-bg: #FFFFFF;
+    --text: #1A1F26;
+    --text-dim: #6B7280;
+    --border: #E5E7EB;
+    
+    --font: 'Plus Jakarta Sans', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+
+/* ── Header ── */
+header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky; top: 0; z-index: 1000;
+}
+
+.header-content { display: flex; align-items: center; justify-content: space-between; }
+
+.logo { font-weight: 800; font-size: 1.5rem; text-decoration: none; color: var(--text); }
+.logo span { color: var(--primary); }
+
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--text-dim); font-size: 0.875rem; font-weight: 600; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+.sign-in { background: #1a1f26; color: #fff; padding: 10px 24px; border-radius: 100px; font-weight: 700; font-size: 0.875rem; }
+
+/* ── Arena Layout ── */
+.arena-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    gap: 40px;
+    margin-top: 40px;
+    align-items: start;
+}
+
+/* ── Consensus Meter (Horizontal) ── */
+.consensus-wrapper {
+    grid-column: 1 / -1;
+    margin-bottom: 20px;
+}
+
+.consensus-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.topic-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.04em; max-width: 800px; }
+.topic-desc { font-size: 1rem; color: var(--text-dim); margin-top: 8px; max-width: 600px; }
+
+.live-badge {
+    background: #00D4AA22; color: #00D4AA; font-size: 0.7rem; font-weight: 800;
+    padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 12px;
+}
+
+.stats-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 24px; display: flex; gap: 32px;
+}
+.stat-item label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; }
+.stat-item value { font-size: 1.25rem; font-weight: 800; font-family: var(--mono); color: #FF7F6A; }
+
+/* The actual bar */
+.consensus-bar {
+    display: flex;
+    height: 32px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin: 20px 0;
+    background: #eee;
+}
+
+.bar-segment {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: width 0.8s ease;
+}
+
+.segment-caution { background: #A93E2E; }
+.segment-synthesis { background: #C5A154; }
+.segment-acceleration { background: #006666; }
+
+.bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 700; color: var(--text-dim); }
+
+/* ── Sidebars ── */
+.persona-fixed {
+    position: sticky; top: 100px;
+    background: #fff; border: 1px solid var(--border); border-radius: 20px;
+    padding: 32px 24px; text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.persona-fixed::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    border-radius: 20px 20px 0 0;
+}
+.ethicist-theme::before { background: var(--primary); }
+.catalyst-theme::before { background: var(--secondary); }
+.synthesizer-theme::before { background: var(--accent); }
+
+.portrait-circle {
+    width: 80px; height: 80px; border-radius: 50%; overflow: hidden;
+    margin: 0 auto 20px; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.portrait-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+.persona-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+.persona-role { font-size: 0.7rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+.persona-quote { font-size: 0.9rem; color: var(--primary); font-style: italic; background: #FF7F6A11; padding: 12px; border-radius: 12px; }
+
+/* ── Feed ── */
+.feed-center { display: flex; flex-direction: column; gap: 32px; padding-bottom: 100px; }
+
+.feed-header {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; font-weight: 700; color: var(--text-dim);
+}
+
+.bubble {
+    padding: 32px; border-radius: 20px; box-shadow: var(--shadow);
+    position: relative; transition: transform 0.3s;
+}
+.bubble-catalyst { background: #00D4AA33; border: 1px solid #00D4AA; border-left: 8px solid #00D4AA; }
+.bubble-ethicist { background: #FF7F6A33; border: 1px solid #FF7F6A; border-right: 8px solid #FF7F6A; text-align: right; }
+.bubble-synthesis { background: #4285F433; border: 1px solid #4285F4; border-top: 8px solid #4285F4; text-align: center; }
+.bubble-search { background: #E5E7EB33; border: 1px solid #E5E7EB; border-top: 8px solid #9CA3AF; text-align: left; }
+
+.bubble-meta { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); margin-top: 12px; text-transform: uppercase; }
+
+/* ── Metrics Sidebar ── */
+.sidebar-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 24px; }
+.card-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; color: var(--text-dim); }
+
+.strength-meter { margin-bottom: 16px; }
+.meter-top { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; margin-bottom: 6px; }
+.meter-bg { height: 6px; background: #eee; border-radius: 100px; overflow: hidden; }
+.meter-fill { height: 100%; transition: width 1s ease; }
+
+/* ── Utility ── */
+.hidden { display: none !important; }
+
+/* Wizard overlay */
+.wizard-overlay {
+    position: fixed; inset: 0; background: rgba(255,255,255,0.95);
+    z-index: 2000; display: flex; align-items: center; justify-content: center;
+}
+.wizard-box { max-width: 600px; width: 100%; padding: 40px; text-align: center; }
+textarea { width: 100%; border: 2px solid var(--border); border-radius: 16px; padding: 20px; font-family: inherit; font-size: 1.1rem; resize: none; outline: none; margin: 20px 0; }
+textarea:focus { border-color: var(--primary); }
+
+.btn-start { background: var(--primary); color: #fff; border: none; padding: 16px 40px; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 1.1rem; }

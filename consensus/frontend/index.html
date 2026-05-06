@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialectic — AI Collective Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">Dia<span>lectic</span></a>
+            <nav class="nav-links">
+                <a href="#" class="active" onclick="resetDebate(); return false;">Ask New Question</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- SETUP WIZARD (Overlay) -->
+        <div id="wizardOverlay" class="wizard-overlay">
+            <div class="wizard-box">
+                <span class="live-badge">Setup Session</span>
+                <h1 style="font-size: 2rem; font-weight: 800;">What shall we explore?</h1>
+                <textarea id="topicInput" rows="3" placeholder="Enter a thesis statement (e.g. The Ethics of AGI)"></textarea>
+                <button class="btn-start" onclick="initiateDebate()">Initialize Arena</button>
+            </div>
+        </div>
+
+        <!-- LIVE ARENA -->
+        <section id="arena" class="arena-grid hidden">
+            <!-- TOP BAR: Title & Consensus -->
+            <div class="consensus-wrapper">
+                <div class="consensus-header">
+                    <div>
+                        <span class="live-badge">LIVE DEBATE</span>
+                        <h1 id="displayTitle" class="topic-title">The Ethics of AGI</h1>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stat-item">
+                            <label>Time Elapsed</label>
+                            <value id="timer">00:00:00</value>
+                        </div>
+                        <div class="stat-item">
+                            <label>Debate Status</label>
+                            <value id="debateStatus">Live</value>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="consensus-bar">
+                    <div id="bar-progress" class="bar-segment" style="width: 0%; background: #00D4AA; transition: width 0.5s;">0%</div>
+                </div>
+                <div class="bar-labels">
+                    <span>Start</span>
+                    <span>Debate Progress</span>
+                    <span>Consensus</span>
+                </div>
+            </div>
+
+            <!-- LEFT SIDEBAR: Ethicist -->
+            <aside>
+                <div class="persona-fixed ethicist-theme">
+                    <div class="portrait-circle" style="background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800;">
+                        L
+                    </div>
+                    <h2 class="persona-name">Llama 3.1</h2>
+                    <div class="persona-role">THE ADVERSARY</div>
+                    <p class="persona-quote" id="ethicistQuote">"We must prioritize the preservation of human agency over the speed of silicon evolution."</p>
+                    
+                    <div style="display: flex; gap: 8px; justify-content: center; margin-top: 24px;">
+                        <span class="live-badge" style="background: #eee; color: #555;">Logic</span>
+                        <span class="live-badge" style="background: #eee; color: #555;">Rhetoric</span>
+                    </div>
+                </div>
+
+                <div class="persona-fixed synthesizer-theme" style="margin-top: 24px;">
+                    <div class="portrait-circle" style="background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800;">
+                        G
+                    </div>
+                    <h2 class="persona-name">Gemma 4</h2>
+                    <div class="persona-role">THE PROVOCATEUR</div>
+                    <p class="persona-quote" id="synthesizerQuote" style="color: var(--accent); background: #A0B2A611;">"Seeking the third way. Balancing logic with forward progress."</p>
+                </div>
+            </aside>
+
+            <!-- CENTER: Argument Feed -->
+            <div class="feed-center">
+                <div class="feed-header">
+                    <span>● Live Argument Feed</span>
+                    <span style="cursor: pointer;">⚡ FILTERS</span>
+                </div>
+
+                <div id="argumentFeed">
+                    <!-- Dynamic Bubbles -->
+                </div>
+
+                <div id="newDebateContainer" class="hidden" style="text-align: center; margin-top: 20px;">
+                    <button class="btn-start" onclick="resetDebate()">Ask New Question</button>
+                </div>
+
+                <div class="bubble" style="background: #fff; border: 1px solid var(--border); padding: 20px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <textarea id="rebuttalInput" placeholder="Continue with this debate..." style="margin: 0; border: none; font-size: 1rem;"></textarea>
+                        <div onclick="submitRebuttal()" style="background: #006666; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                            ➤
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDEBAR: Catalyst & Metrics -->
+            <aside>
+                <div class="persona-fixed catalyst-theme">
+                    <div class="portrait-circle" style="background: var(--secondary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800;">
+                        D
+                    </div>
+                    <h2 class="persona-name">DeepSeek R1</h2>
+                    <div class="persona-role">THE JUDGE</div>
+                    <p class="persona-quote" id="catalystQuote" style="color: var(--secondary); background: #00D4AA11;">"Intelligence is the universe's most precious resource. Throttling it is a crime."</p>
+
+                    <div style="display: flex; gap: 8px; justify-content: center; margin-top: 24px;">
+                        <span class="live-badge" style="background: #eee; color: #555;">Speed</span>
+                        <span class="live-badge" style="background: #eee; color: #555;">Persuasion</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-card" style="margin-top: 24px;">
+                    <div class="card-title">Argument Strength</div>
+                    
+                    <div class="strength-meter">
+                        <div class="meter-top"><span>Coherence</span><span id="met-coherence">92%</span></div>
+                        <div class="meter-bg"><div id="fill-coherence" class="meter-fill" style="width: 92%; background: #006666;"></div></div>
+                    </div>
+
+                    <div class="strength-meter">
+                        <div class="meter-top"><span>Factual Accuracy</span><span id="met-accuracy">88%</span></div>
+                        <div class="meter-bg"><div id="fill-accuracy" class="meter-fill" style="width: 88%; background: #C5A154;"></div></div>
+                    </div>
+
+                    <div class="strength-meter">
+                        <div class="meter-top"><span>Emotional Resonance</span><span id="met-resonance">64%</span></div>
+                        <div class="meter-bg"><div id="fill-resonance" class="meter-fill" style="width: 64%; background: #A93E2E;"></div></div>
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>
